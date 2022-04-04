@@ -23,42 +23,53 @@ namespace W7_Praktikum_Catherine_Lim_0706022110002
       
         private void buttonKonversi_Click(object sender, EventArgs e)
         {
+            output = "";
             string kalimat = textBoxKalimat.Text.ToUpper();
             char[] karakter = kalimat.ToCharArray();
-
-            char[] hurufString = textBoxHuruf.Text.ToUpper().ToCharArray();
-            char[] hurufStringDua = textBoxHurGanti.Text.ToUpper().ToCharArray();
-
-            for (int i = 0; i < arrayHuruf.Count(); i++)
+           
+            if (textBoxHuruf.Text == "" || textBoxHurGanti.Text == "")
             {
-                if (hurufString [0] == arrayHuruf[i])
-                {
-                    angkaSatu = i;
-                }
+                MessageBox.Show("Belum ada huruf yang diganti");
             }
-
-            for (int i = 0; i < arrayHuruf.Count(); i++)
+            else
             {
-                if (hurufStringDua[0] == arrayHuruf[i])
+                char[] hurufString = textBoxHuruf.Text.ToUpper().ToCharArray();
+                char[] hurufStringDua = textBoxHurGanti.Text.ToUpper().ToCharArray();
+
+                for (int i = 0; i < arrayHuruf.Count(); i++)
                 {
-                    angkaDua = i;
+                    if (hurufString[0] == arrayHuruf[i])
+                        angkaSatu = i;
+                    if (hurufStringDua[0] == arrayHuruf[i])
+                        angkaDua = i;
                 }
-            }
 
-            selisih = angkaDua - angkaSatu;
+                selisih = angkaDua - angkaSatu;
 
-            for (int i = 0; i < karakter.Count(); i++)
-            {
-                for (int j = 0; j < arrayHuruf.Count(); j++)
+                if (selisih < 0)
+                    selisih += 26;
+
+                for (int i = 0; i < karakter.Count(); i++)
                 {
-                    if (karakter[i] == arrayHuruf[j])
+                    for (int j = 0; j < arrayHuruf.Count(); j++)
                     {
-                         output += arrayHuruf[j + selisih];
+                        if (karakter[i] == arrayHuruf[j])
+                        {
+                            if (j + selisih > 26 - 1)
+                            {
+                                selisih -= 26;
+                                j = 0;
+                            }
+                            else
+                            { 
+                                output += arrayHuruf[j + selisih];
+                            }
+                        }
+                           
                     }
                 }
+                labelOutput.Text = output;
             }
-            labelOutput.Text = output;
-
         }
     }
 }
